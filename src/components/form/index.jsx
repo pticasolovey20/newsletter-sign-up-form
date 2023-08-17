@@ -17,6 +17,7 @@ const Form = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		getValues,
 		formState: { errors },
 	} = useForm({ mode: "onChange" });
@@ -25,7 +26,10 @@ const Form = () => {
 		return () => setSubscribed(true);
 	};
 
-	const handleDismiss = () => setSubscribed(false);
+	const handleDismiss = () => {
+		setSubscribed(false);
+		reset();
+	};
 
 	if (subscribed) return <Subscribed email={getValues().email} dismiss={handleDismiss} />;
 
@@ -72,9 +76,10 @@ const Form = () => {
 						})}
 						placeholder="email@company.com"
 						className={classNames(
-							"px-4 py-3 rounded-lg",
-							"border border-neutral-dark-slate-grey",
-							"focus:outline-none focus:ring-0"
+							"px-4 py-3 rounded-lg border",
+							"focus:outline-none focus:ring-0",
+							errors?.email ? "border-primary-tomato" : "border-neutral-dark-slate-grey",
+							errors.email ? "bg-primary-tomato/25" : "bg-transparent"
 						)}
 					/>
 				</div>
